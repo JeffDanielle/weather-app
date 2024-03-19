@@ -13,8 +13,9 @@ const homePage = () => {
     const [msgPrompt, setMsgPrompt] = useState(null)
 
     const handleSearch = async (e) => {
+        e.preventDefault();
         if (!search) {
-            e.preventDefault();
+            return;
         } else {
             try {
                 setIsFetching(true)
@@ -46,7 +47,7 @@ const homePage = () => {
                 <h1 className="text-3xl tracking-wider text-white">
                     Weather Today
                 </h1>
-                <div className="relative z-10">
+                <form className="relative z-10" onSubmit={handleSearch}>
                     <input
                         onChange={(e) => setSearch(e.target.value)}
                         type="text"
@@ -55,14 +56,12 @@ const homePage = () => {
                         required
                     />
                     <button
-                        type="submit"
-                        onClick={handleSearch}
-                        className="bg-cyan-600 px-4 rounded-md text-white hover:opacity-65"
+                        className="bg-cyan-600 px-4 rounded-md text-white hover:opacity-65 ease-in-out duration-200"
                         disabled={isFetching}
                     >
                         {isFetching ? "Searching..." : "Search"}
                     </button>
-                </div>
+                </form>
             </div>
 
             <div className="absolute inset-0 flex justify-center items-end gap-4 w-full mb-5">
