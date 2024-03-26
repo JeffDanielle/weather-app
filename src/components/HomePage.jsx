@@ -26,6 +26,7 @@ const homePage = () => {
                 }
 
                 const data = await response.json()
+                console.log(data.location)
                 setWeather(data)
             } catch (e) {
                 console.error("Error fetching data: ", e);
@@ -35,7 +36,7 @@ const homePage = () => {
                 setisLoading(false)
                 setTimeout(() => {
                     setError("")
-                }, 5000);
+                }, 3000);
             }
         }
 
@@ -75,7 +76,7 @@ const homePage = () => {
             </div>
 
             <p className="absolute inset-0 flex flex-row justify-center items-center content-center p-4 gap-4 text-center text-red-700 text-3xl">
-                {error && <><span>⛔</span>{error}<span>⛔</span></>}
+                {error && <><span>⚠️</span>{error}<span>⚠️</span></>}
             </p>
 
             <div className="absolute inset-0 flex justify-center items-end gap-4 w-full mb-5">
