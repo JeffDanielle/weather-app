@@ -9,8 +9,8 @@ import StatusIcon from "../assets/status.png"
 const homePage = () => {
     const [search, setSearch] = useState("");
     const [weather, setWeather] = useState(null);
-    const [isFetching, setIsFetching] = useState(false)
-    const [msgPrompt, setMsgPrompt] = useState(null)
+    const [isLoading, setisLoading] = useState(false)
+    const [error, setError] = useState("")
 
     const handleSearch = async (e) => {
         e.preventDefault();
@@ -18,24 +18,34 @@ const homePage = () => {
             return;
         } else {
             try {
-                setIsFetching(true)
+                setisLoading(true)
                 const response = await fetch(`${BASE_URL}?key=${API_KEY}&q=${search}`)
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`)
+                }
+
                 const data = await response.json()
                 setWeather(data)
-                console.log(data)
             } catch (e) {
                 console.error("Error fetching data: ", e);
+                setError("Location Not Found!")
+
+            } finally {
+                setisLoading(false)
+                setTimeout(() => {
+                    setError("")
+                }, 5000);
             }
-            setIsFetching(false)
         }
 
     }
 
 
     useEffect(() => {
-        if (weather) {
-            console.log(weather)
-        }
+        // if (weather) {
+        //     console.log(weather)
+        // }
         // handleSearch();
         // console.log(weather.coord)
     }, [weather])
@@ -57,12 +67,16 @@ const homePage = () => {
                     />
                     <button
                         className="bg-cyan-600 px-4 rounded-md text-white hover:opacity-65 ease-in-out duration-200"
-                        disabled={isFetching}
+                        disabled={isLoading}
                     >
-                        {isFetching ? "Searching..." : "Search"}
+                        {isLoading ? "Searching..." : "Search"}
                     </button>
                 </form>
             </div>
+
+            <p className="absolute inset-0 flex flex-row justify-center items-center content-center p-4 gap-4 text-center text-red-700 text-3xl">
+                {error && <><span>⛔</span>{error}<span>⛔</span></>}
+            </p>
 
             <div className="absolute inset-0 flex justify-center items-end gap-4 w-full mb-5">
                 <div className="flex justify-between rounded-lg border border-gray-100 w-1/6 bg-slate-200 shadow-sm transition hover:shadow-lg sm:p-6">
