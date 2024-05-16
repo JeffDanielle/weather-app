@@ -2,7 +2,6 @@ import BASE_URL from "../constants/base-url";
 import API_KEY from "../constants/api-key";
 import { useEffect, useState } from "react";
 import BgImage from "../assets/bg-weather.jpg"
-import WeatherImage from "../assets/weather-image.png"
 import LocIcon from "../assets/location.png"
 import TempIcon from "../assets/thermometer.png"
 import StatusIcon from "../assets/status.png"
